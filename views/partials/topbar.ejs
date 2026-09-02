@@ -1,0 +1,42 @@
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 21s-7.5-4.6-10-9.3C.4 8.4 2 4.6 5.6 4c2.1-.4 3.9.6 6.4 3 2.5-2.4 4.3-3.4 6.4-3C22 4.6 23.6 8.4 22 11.7 19.5 16.4 12 21 12 21z" stroke="#B3242C" stroke-width="1.6" fill="#FBEAEA"/>
+        <path d="M3 12h4l2-4 3 8 2-5 1.5 1H21" stroke="#1D5FBF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-name">Trividha</span>
+        <span class="brand-sub" data-i18n="brand_sub">Hospital Kiosk</span>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="clock">
+        <span id="clock-time">--:--</span>
+        <span id="clock-date">-- ---</span>
+      </div>
+
+      <button type="button" class="lang-pill" id="lang-pill-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 8h9M9.5 5v3c0 4-2 7-5.5 9M8 8c0 4 2.5 7.5 7 9.5M15 21l4-9 4 9M16.5 18h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-lang-pill>English</span>
+      </button>
+
+      <div class="text-size-toggle" role="group" aria-label="Text size">
+        <button type="button" data-text-step="-0.1" aria-label="Decrease text size">A-</button>
+        <button type="button" data-text-step="0.1" aria-label="Increase text size">A+</button>
+      </div>
+
+      <% if (typeof account !== 'undefined' && account) { %>
+        <div class="account-menu">
+          <a class="account-btn" href="<%= account.homeHref %>" title="<%= account.name %>">
+            <span class="account-avatar"><%= account.initials %></span>
+            <span class="account-name"><%= account.name %></span>
+          </a>
+          <a class="account-logout" href="/logout" data-i18n-attr="aria-label:btn_logout|title:btn_logout" aria-label="Log out" title="Log out">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      <% } %>
+    </div>
+  </header>

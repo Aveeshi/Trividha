@@ -1,0 +1,40 @@
+<%- include('../partials/head', { title: 'Verify OTP - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="auth-card">
+        <h1 data-i18n="otp_title">Verify OTP</h1>
+        <p class="auth-sub"><span data-i18n="otp_sub_prefix">Enter the OTP sent to the mobile number linked to</span> <strong><%= identifier %></strong>.</p>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="form-error"><%= error %></div>
+        <% } %>
+        <% if (typeof notice !== 'undefined' && notice) { %>
+          <div class="form-notice"><%= notice %></div>
+        <% } %>
+
+        <form method="POST" action="/login/patient/verify-otp" id="otp-form">
+          <div class="otp-inputs" id="otp-boxes">
+            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" />
+            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" />
+            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" />
+            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" />
+            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" />
+            <input class="otp-box" type="text" inputmode="numeric" maxlength="1" />
+          </div>
+          <input type="hidden" name="otp" id="otp-hidden" />
+          <p class="auth-footnote" style="margin-top:0;" data-i18n="otp_demo_note">Demo mode: the OTP is texted to the demo number list. It's valid for 10 minutes.</p>
+          <button type="submit" class="form-submit" data-i18n="btn_verify_otp">Verify &amp; Continue</button>
+        </form>
+
+        <form method="POST" action="/login/patient/resend-otp" id="resend-otp-form">
+          <button type="submit" class="link-btn" id="resend-otp-btn" data-i18n="btn_resend_otp">Resend OTP</button>
+        </form>
+
+        <p class="auth-footnote"><a href="/login/patient">&larr; <span data-i18n="use_different_id">Use a different Aadhaar / ABHA ID</span></a></p>
+      </div>
+    </section>
+  </main>
+
+<%- include('../partials/footer', { extraScript: '/js/auth.js' }) %>

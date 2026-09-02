@@ -1,0 +1,16 @@
+<%- include('../partials/head', { title: 'Doctor Dashboard - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="hero">
+        <p class="eyebrow" data-i18n="dashboard_welcome">WELCOME</p>
+        <h1>Dr. <%= doctor.name %></h1>
+        <p class="subtext"><%= doctor.specialization || 'General Medicine' %><% if (doctor.experience_years) { %> &middot; <%= doctor.experience_years %> yrs<% } %></p>
+      </div>
+
+      <p class="helper-note" data-i18n="doctor_dashboard_note">Your dashboard is being built — schedule, patient queue, and consultation tools will appear here soon.</p>
+    </section>
+  </main>
+
+<%- include('../partials/footer') %>

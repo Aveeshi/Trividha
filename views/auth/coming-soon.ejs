@@ -1,0 +1,17 @@
+<%- include('../partials/head', { title: 'Coming soon - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="auth-card" style="text-align:center;">
+        <h1>
+          <span data-i18n="role_<%= role %>_title"><%= role.charAt(0).toUpperCase() + role.slice(1) %></span>
+          <span data-i18n="role_login_cta">Login</span>
+        </h1>
+        <p class="auth-sub" data-i18n="coming_soon_sub">This login is being built and will be available soon.</p>
+        <a class="form-submit" style="display:inline-block; text-decoration:none;" href="/home" data-i18n="back_to_roles">Back to role selection</a>
+      </div>
+    </section>
+  </main>
+
+<%- include('../partials/footer') %>

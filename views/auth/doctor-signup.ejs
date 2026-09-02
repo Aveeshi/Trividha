@@ -1,0 +1,97 @@
+<%- include('../partials/head', { title: 'Doctor Sign Up - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="auth-card auth-card--wide">
+        <h1 data-i18n="doctor_signup_title">Create your doctor account</h1>
+        <p class="auth-sub" data-i18n="doctor_signup_sub">Register with your government-issued doctor ID.</p>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="form-error"><%= error %></div>
+        <% } %>
+
+        <form method="POST" action="/login/doctor/signup" id="doctor-signup-form">
+          <div class="form-group">
+            <label class="form-label" for="government_doctor_id" data-i18n="label_govt_doctor_id">Government Doctor ID</label>
+            <input class="form-input" type="text" id="government_doctor_id" name="government_doctor_id" value="<%= form.government_doctor_id || '' %>" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="name" data-i18n="label_full_name">Full name</label>
+            <input class="form-input" type="text" id="name" name="name" value="<%= form.name || '' %>" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="specialization" data-i18n="label_specialization">Specialization</label>
+              <select class="form-select" id="specialization" name="specialization" data-prefill="<%= form.specialization || '' %>">
+                <option value="">— select —</option>
+                <option>General Medicine</option>
+                <option>Cardiology</option>
+                <option>Dermatology</option>
+                <option>Endocrinology</option>
+                <option>ENT (Otolaryngology)</option>
+                <option>Gastroenterology</option>
+                <option>General Surgery</option>
+                <option>Gynecology &amp; Obstetrics</option>
+                <option>Nephrology</option>
+                <option>Neurology</option>
+                <option>Oncology</option>
+                <option>Ophthalmology</option>
+                <option>Orthopedics</option>
+                <option>Pediatrics</option>
+                <option>Psychiatry</option>
+                <option>Pulmonology</option>
+                <option>Radiology</option>
+                <option>Urology</option>
+                <option>Anesthesiology</option>
+                <option>Dentistry</option>
+                <option>Ayurveda</option>
+                <option>Homeopathy</option>
+                <option value="Other">Other</option>
+              </select>
+              <input class="form-input" type="text" id="specialization_other" name="specialization_other" placeholder="Enter specialization" style="margin-top: 0.6rem; display: none;" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="experience_years" data-i18n="label_experience">Years of experience</label>
+              <input class="form-input" type="number" min="0" max="70" id="experience_years" name="experience_years" value="<%= form.experience_years || '' %>" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="qualification_input" data-i18n="label_qualification">Qualification(s)</label>
+            <div class="tag-input-row">
+              <input class="form-input" type="text" id="qualification_input" placeholder="e.g. MBBS" />
+              <button type="button" class="tag-add-btn" id="qualification_add" aria-label="Add qualification">+</button>
+            </div>
+            <div class="tag-list" id="qualification_tags"></div>
+            <input type="hidden" name="qualification" id="qualification_hidden" value="<%= form.qualification || '' %>" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login_email" data-i18n="label_email">Email</label>
+            <input class="form-input" type="email" id="login_email" name="login_email" value="<%= form.login_email || '' %>" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="password" data-i18n="label_password">Password</label>
+              <input class="form-input" type="password" id="password" name="password" minlength="8" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="confirm_password" data-i18n="label_confirm_password">Confirm password</label>
+              <input class="form-input" type="password" id="confirm_password" name="confirm_password" minlength="8" required />
+            </div>
+          </div>
+
+          <button type="submit" class="form-submit" data-i18n="btn_create_account">Create account &amp; continue</button>
+        </form>
+
+        <p class="auth-footnote"><a href="/login/doctor">&larr; <span data-i18n="already_have_account">Already have an account? Login</span></a></p>
+      </div>
+    </section>
+  </main>
+
+<%- include('../partials/footer', { extraScript: '/js/doctor-signup.js' }) %>
