@@ -1,0 +1,38 @@
+<!-- Kiosk Top Navigation Bar -->
+<header class="admin-topbar">
+  <div>
+    <a href="/home?lang=<%= selectedLang %>" class="admin-brand-link">
+      <div class="admin-brand-icon">
+        <i class="fa-solid fa-notes-medical"></i>
+      </div>
+      <div>
+        <div class="admin-brand-title-row">
+          <span class="admin-brand-title">त्रिविधा <span class="admin-brand-title-en">Trividha</span></span>
+          <span class="admin-brand-badge">Kiosk v2.5</span>
+        </div>
+        <p class="admin-brand-tagline">AI-Powered Multilingual Pre-Consultation Intake</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="admin-topbar-right">
+    <!-- Live Clock -->
+    <div class="admin-clock">
+      <i class="fa-regular fa-clock admin-clock-icon"></i>
+      <span id="kiosk-live-clock">--:--</span>
+    </div>
+
+    <!-- Active Language Selector Button -->
+    <a href="/?lang=<%= selectedLang %>" class="admin-lang-btn">
+      <i class="fa-solid fa-language admin-lang-icon"></i>
+      <span class="admin-lang-native"><%= currentLang.native %></span>
+      <span class="admin-lang-english">(<%= currentLang.english %>)</span>
+    </a>
+
+    <!-- Emergency Button -->
+    <button onclick="window.openEmergencyModal()" class="admin-emergency-btn">
+      <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
+      <span><%= dict.emergency || 'Emergency' %></span>
+    </button>
+  </div>
+</header>

@@ -1,0 +1,58 @@
+<!-- Emergency Red Flag Alert Modal -->
+<div id="emergencyModal" class="hidden admin-modal-overlay">
+  <div class="admin-emergency-modal animate-in">
+    <div class="admin-emergency-icon animate-bounce">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+    <h2 class="admin-emergency-title"><%= dict.emgTitle || 'Connecting you to the Emergency Triage Desk' %></h2>
+    <p class="admin-emergency-sub">
+      <%= dict.emgSub || 'Please remain seated. A triage nurse and medical officer have been dispatched to this kiosk.' %>
+    </p>
+
+    <div class="admin-emergency-details">
+      <div class="admin-emergency-details-row">
+        <span>Kiosk Terminal:</span>
+        <span class="admin-emergency-details-value">OPD Block A · Terminal #04</span>
+      </div>
+      <div class="admin-emergency-details-row">
+        <span>Triage Protocol:</span>
+        <span class="admin-emergency-details-value--rose">Level 1 Emergency Dispatch</span>
+      </div>
+      <div class="admin-emergency-details-row">
+        <span>Emergency Medical Officer:</span>
+        <span class="admin-emergency-details-value">Room 101 Resuscitation Team</span>
+      </div>
+    </div>
+
+    <div class="admin-modal-actions">
+      <button onclick="window.closeEmergencyModal()" class="admin-btn-secondary">
+        Cancel Alert
+      </button>
+      <a href="tel:108" class="admin-btn-emergency-call">
+        <i class="fa-solid fa-phone"></i> Call Emergency 108
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- QR Code Modal -->
+<div id="qrModal" class="hidden admin-modal-overlay">
+  <div class="admin-qr-modal">
+    <div class="admin-qr-icon">
+      <i class="fa-solid fa-qrcode"></i>
+    </div>
+    <h3 class="admin-qr-title"><%= dict.qrModalTitle || 'Scan to continue on your phone' %></h3>
+    <p class="admin-qr-sub">
+      <%= dict.qrModalSub || "Open your phone's camera and point it at this code to complete pre-intake on your mobile device." %>
+    </p>
+
+    <!-- Simulated QR Code -->
+    <div class="admin-qr-image-wrap">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://trividha.hospital.in/mobile-intake?kiosk=4&lang=<%= selectedLang %>" alt="QR Code" class="admin-qr-image" />
+    </div>
+
+    <button onclick="window.closeQrModal()" class="admin-btn-primary">
+      <%= dict.qrModalBtn || 'Done' %>
+    </button>
+  </div>
+</div>
