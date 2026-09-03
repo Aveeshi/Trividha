@@ -1,0 +1,38 @@
+{
+  "name": "sih_project",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
+    "connect-pg-simple": "^10.0.0",
+    "cookie-parser": "^1.4.7",
+    "docx": "^9.7.1",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.3.0",
+    "nodemailer": "^9.1.1",
+    "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.23.0",
+    "tailwindcss": "^4.3.3",
+    "twilio": "^6.1.0",
+    "uuid": "^14.0.2",
+    "xlsx": "^0.18.5"
+  }
+}

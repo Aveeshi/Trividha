@@ -1,0 +1,90 @@
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="modalTitle">Add doctor</h2>
+        <p>Enroll a registered doctor by Government Doctor ID.</p>
+      </div>
+      <button class="modal-close" id="modalCloseBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#16294F" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <input type="hidden" id="docId">
+    <div class="field-row">
+      <div class="field">
+        <label>Government ID</label>
+        <input id="docGovId" type="text" placeholder="DOC-2026-0001">
+      </div>
+      <div class="field">
+        <label>Full name</label>
+        <input id="docName" type="text" placeholder="Dr. Ananya Kulkarni">
+      </div>
+      <div class="field">
+        <label>Specialisation</label>
+        <select id="docSpec">
+          <optgroup label="General">
+            <option>General Medicine</option><option>Cardiology</option><option>Orthopedics</option>
+            <option>Pediatrics</option><option>Gynecology</option><option>ENT</option>
+            <option>Dermatology</option><option>Neurology</option>
+          </optgroup>
+          <optgroup label="AYUSH / Ayurveda">
+            <option>Ayurvedic Physician</option><option>Panchakarma Specialist</option>
+            <option>Kayachikitsa</option><option>Yoga &amp; Naturopathy</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="docStatus"><option>Available</option><option>On Leave</option></select>
+      </div>
+      <div class="field">
+        <label>Rating (0–5)</label>
+        <input id="docRating" type="number" min="0" max="5" step="0.1" placeholder="4.5">
+      </div>
+      <div class="field">
+        <label>Patients seen</label>
+        <input id="docPatientsSeen" type="number" min="0" step="1" placeholder="0">
+      </div>
+      <div class="field">
+        <label>Leaves allotted</label>
+        <input id="docLeavesAllotted" type="number" min="0" step="1" placeholder="12">
+      </div>
+      <div class="field">
+        <label>Leaves used</label>
+        <input id="docLeavesUsed" type="number" min="0" step="1" placeholder="0">
+      </div>
+      <div class="field full">
+        <label>Review</label>
+        <textarea id="docReview" rows="2" placeholder="Short patient review..."></textarea>
+      </div>
+      <div class="field full">
+        <label>Available slots</label>
+        <div class="slots-editor" id="slotsEditor"></div>
+        <div class="slots-add" style="margin-top:8px;">
+          <input id="slotInput" type="text" placeholder="e.g. 09:00-13:00">
+          <button type="button" class="btn btn-ghost btn-sm" id="addSlotBtn">Add slot</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-danger-text" id="deleteDocBtn" style="display:none; margin-right:auto;">Delete doctor</button>
+      <button class="btn btn-ghost" id="cancelModalBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveDocBtn">Save doctor</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal narrow">
+    <div class="modal-head">
+      <div>
+        <h2>Remove this doctor?</h2>
+        <p id="confirmText">This will remove the doctor from this hospital.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirmCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="confirmDeleteBtn" style="background:var(--red);">Yes, remove</button>
+    </div>
+  </div>
+</div>

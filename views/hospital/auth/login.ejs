@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: 'Trividha — Hospital Manager Sign In', css: 'login' }) %>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand-panel">
+    <div class="brand-top">
+      <div class="brand-mark">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21s-7.5-4.6-10-9.2C0.3 8.1 2 4.5 5.6 4c2-.3 3.8.6 5 2.1 1.2-1.5 3-2.4 5-2.1C19.2 4.5 20.9 8.1 19.2 12 16.7 16.4 12 21 12 21z" stroke="#fff" stroke-width="1.6" fill="none"/>
+          <path d="M4 12h3.2l1.4-2.6 2 4.6 1.6-3.4 1 1.4h5.4" stroke="#F0899A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="name">Trividha</div>
+        <div class="sub">Hospital Manager Portal</div>
+      </div>
+    </div>
+
+    <div class="brand-mid">
+      <h1>One sign-in for every doctor, kiosk and patient check-in.</h1>
+      <p>Upload your doctor roster, register your kiosks, and Trividha keeps every check-in screen in your hospital up to date automatically.</p>
+      <svg class="pulse" viewBox="0 0 220 24" fill="none">
+        <path d="M0 12 H80 L88 2 L98 22 L108 12 H220" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="brand-foot">
+      <div class="stat"><b>1 sheet</b>Excel import for your whole roster</div>
+      <div class="stat"><b>Any #</b>of kiosks, all kept in sync</div>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="form-card">
+
+      <div id="authView">
+        <div class="eyebrow">Namaste 🙏</div>
+        <h2 id="formTitle">Sign in to your hospital</h2>
+        <p class="lead" id="formLead">Manage doctors and kiosks for your hospital.</p>
+
+        <div class="mode-switch">
+          <button type="button" id="modeLoginBtn" class="active">Sign in</button>
+          <button type="button" id="modeSignupBtn">Create account</button>
+        </div>
+
+        <div class="alert" id="formAlert"></div>
+
+        <form id="authForm">
+          <div class="field" id="fieldHospitalName" style="display:none;">
+            <label>Hospital name</label>
+            <input type="text" id="hospitalName" placeholder="Trividha Multispeciality Hospital">
+          </div>
+          <div class="field">
+            <label>Gmail address</label>
+            <input type="email" id="email" placeholder="manager@gmail.com" autocomplete="username">
+            <div class="field-hint">Must end with @gmail.com — that's where your OTPs and alerts go.</div>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+              <button type="button" class="eye-btn" data-target="password" aria-label="Show password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="eye-open"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" stroke="#6B7280" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#6B7280" stroke-width="1.7"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="eye-closed" style="display:none;"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" stroke="#6B7280" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#6B7280" stroke-width="1.7"/><path d="M3 3l18 18" stroke="#6B7280" stroke-width="1.7" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+            <div class="field-hint" id="passwordHint" style="display:none;">At least 6 characters.</div>
+          </div>
+
+          <div class="btn-link-row" id="forgotRow">
+            <button type="button" class="btn-link" id="forgotLink">Forgot password?</button>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span class="spinner" id="spinner"></span>
+            <span id="submitLabel">Sign in</span>
+          </button>
+        </form>
+
+        <div class="form-foot" id="formFoot">
+          New to Trividha? <a id="footLink">Create a hospital account</a>
+        </div>
+      </div>
+
+      <div id="forgotView" style="display:none;">
+        <div class="eyebrow">Reset password</div>
+        <h2 id="forgotTitle">Enter your Gmail address</h2>
+        <p class="lead" id="forgotLead">We'll email a 6-digit code to reset your password.</p>
+
+        <div class="alert" id="forgotAlert"></div>
+
+        <form id="forgotEmailForm">
+          <div class="field">
+            <label>Gmail address</label>
+            <input type="email" id="forgotEmail" placeholder="manager@gmail.com" autocomplete="username">
+          </div>
+          <button type="submit" class="btn-submit" id="forgotEmailBtn">
+            <span class="spinner" id="forgotEmailSpinner"></span>
+            <span>Send code</span>
+          </button>
+        </form>
+
+        <form id="forgotResetForm" style="display:none;">
+          <div class="field">
+            <label>6-digit code</label>
+            <input type="text" id="forgotOtp" placeholder="123456" inputmode="numeric" maxlength="6">
+          </div>
+          <div class="field">
+            <label>New password</label>
+            <div class="password-wrap">
+              <input type="password" id="forgotNewPassword" placeholder="••••••••" autocomplete="new-password">
+              <button type="button" class="eye-btn" data-target="forgotNewPassword" aria-label="Show password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="eye-open"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" stroke="#6B7280" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#6B7280" stroke-width="1.7"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="eye-closed" style="display:none;"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" stroke="#6B7280" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#6B7280" stroke-width="1.7"/><path d="M3 3l18 18" stroke="#6B7280" stroke-width="1.7" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+            <div class="field-hint">At least 6 characters.</div>
+          </div>
+          <button type="submit" class="btn-submit" id="forgotResetBtn">
+            <span class="spinner" id="forgotResetSpinner"></span>
+            <span>Reset password</span>
+          </button>
+        </form>
+
+        <div class="form-foot"><a id="backToSignInLink">Back to sign in</a></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

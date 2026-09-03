@@ -1,0 +1,35 @@
+<div class="modal-overlay" id="profileOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Hospital profile</h2>
+        <p>Shown on every patient check-in kiosk.</p>
+      </div>
+      <button class="modal-close" id="profileCloseBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#16294F" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="field-row">
+      <div class="field full">
+        <label>Hospital name</label>
+        <input id="hospName" type="text">
+      </div>
+      <div class="field full">
+        <label>Address</label>
+        <input id="hospAddress" type="text" placeholder="MG Road, Pune, Maharashtra">
+      </div>
+      <div class="field">
+        <label>Reception phone</label>
+        <input id="hospPhone" type="text" placeholder="020-4567-8900">
+      </div>
+      <div class="field">
+        <label>Account email</label>
+        <input id="hospEmail" type="text" disabled>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancelProfileBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveProfileBtn">Save profile</button>
+    </div>
+  </div>
+</div>

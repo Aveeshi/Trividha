@@ -1,0 +1,70 @@
+<%- include('../partials/head', { title: 'Create your account - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="auth-card auth-card--wide">
+        <h1 data-i18n="signup_title">Create your patient account</h1>
+        <p class="auth-sub" data-i18n="signup_sub">We couldn't find an existing account. Please complete your details to continue.</p>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="form-error"><%= error %></div>
+        <% } %>
+
+        <form method="POST" action="/login/patient/signup">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="first_name" data-i18n="label_first_name">First name</label>
+              <input class="form-input" type="text" id="first_name" name="first_name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="last_name" data-i18n="label_last_name">Last name</label>
+              <input class="form-input" type="text" id="last_name" name="last_name" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="aadhaar_number" data-i18n="label_aadhaar">Aadhaar Number (12 digits)</label>
+            <input class="form-input" type="text" inputmode="numeric" maxlength="12" id="aadhaar_number" name="aadhaar_number" value="<%= aadhaar %>" <%= aadhaar ? 'readonly' : '' %> required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="abha_id" data-i18n="label_abha">ABHA ID (14 digits)</label>
+            <input class="form-input" type="text" inputmode="numeric" maxlength="14" id="abha_id" name="abha_id" value="<%= abha %>" <%= abha ? 'readonly' : '' %> />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="phone_number" data-i18n="label_phone">Phone number</label>
+              <input class="form-input" type="tel" id="phone_number" name="phone_number" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email" data-i18n="label_email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="gender" data-i18n="label_gender">Gender</label>
+              <select class="form-select" id="gender" name="gender">
+                <option value="" data-i18n="gender_select">Select</option>
+                <option value="MALE" data-i18n="gender_male">Male</option>
+                <option value="FEMALE" data-i18n="gender_female">Female</option>
+                <option value="OTHER" data-i18n="gender_other">Other</option>
+                <option value="UNDISCLOSED" data-i18n="gender_undisclosed">Prefer not to say</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="date_of_birth" data-i18n="label_dob">Date of birth</label>
+              <input class="form-input" type="date" id="date_of_birth" name="date_of_birth" required />
+            </div>
+          </div>
+
+          <button type="submit" class="form-submit" data-i18n="btn_create_account">Create account &amp; continue</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+<%- include('../partials/footer') %>

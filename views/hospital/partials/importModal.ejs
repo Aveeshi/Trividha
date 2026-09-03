@@ -1,0 +1,28 @@
+<div class="modal-overlay" id="importOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Import doctors from Excel</h2>
+        <p>Upload an Excel spreadsheet with Gov ID and Doctor Name columns to enroll doctors in bulk.</p>
+      </div>
+      <button class="modal-close" id="importCloseBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#16294F" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+      <button class="btn btn-ghost btn-sm" id="downloadTemplateBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3v13m0 0l-4-4m4 4l4-4" stroke="#16294F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20h16" stroke="#16294F" stroke-width="2" stroke-linecap="round"/></svg>
+        Download template
+      </button>
+    </div>
+    <div class="dropzone" id="dropzone">
+      <div class="dz-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7 9m5-5l5 5" stroke="#1B3E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke="#1B3E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="dz-title" id="dzTitle">Drag your .xlsx file here, or click to browse</div>
+      <div class="dz-sub">One row per doctor · Gov ID + Doctor Name · .xlsx or .xls</div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none;">
+    </div>
+    <div class="import-result" id="importResult"></div>
+  </div>
+</div>

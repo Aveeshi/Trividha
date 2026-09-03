@@ -1,0 +1,37 @@
+<%- include('../partials/head', { title: 'Doctor Login - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="auth-card">
+        <h1>
+          <span data-i18n="role_doctor_title">Doctor</span>
+          <span data-i18n="role_login_cta">Login</span>
+        </h1>
+        <p class="auth-sub" data-i18n="doctor_login_sub">Sign in with your registered email and password.</p>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="form-error"><%= error %></div>
+        <% } %>
+
+        <form method="POST" action="/login/doctor">
+          <div class="form-group">
+            <label class="form-label" for="login_email" data-i18n="label_email">Email</label>
+            <input class="form-input" type="email" id="login_email" name="login_email" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password" data-i18n="label_password">Password</label>
+            <input class="form-input" type="password" id="password" name="password" required />
+          </div>
+
+          <button type="submit" class="form-submit" data-i18n="role_login_cta">Login</button>
+        </form>
+
+        <p class="auth-footnote"><span data-i18n="new_here_prompt">New here?</span> <a href="/login/doctor/signup" data-i18n="create_account_link">Create an account</a></p>
+        <p class="auth-footnote"><a href="/home">&larr; <span data-i18n="back_to_roles">Back to role selection</span></a></p>
+      </div>
+    </section>
+  </main>
+
+<%- include('../partials/footer') %>
