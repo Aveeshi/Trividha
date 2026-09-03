@@ -8,12 +8,16 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "concurrently -n NODE,OCR -c blue,green \"npm:dev:node\" \"npm:dev:ocr\"",
+    "dev:node": "nodemon app.js",
+    "dev:ocr": "SIH\\.venv\\Scripts\\python.exe -m uvicorn app.main:app --reload --app-dir SIH --port 8000"
   },
   "dependencies": {
+    "@google/genai": "^2.21.0",
     "@tailwindcss/cli": "^4.3.3",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.11.0",
+    "concurrently": "^10.0.5",
     "connect-pg-simple": "^10.0.0",
     "cookie-parser": "^1.4.7",
     "docx": "^9.7.1",

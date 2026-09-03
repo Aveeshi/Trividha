@@ -9,7 +9,11 @@ const cookieParser = require('cookie-parser');
 const authRouter = require('./routes/authRouter');
 const patientRouter = require('./routes/patientRouter');
 const doctorRouter = require('./routes/doctorRouter');
+const kioskHomeRouter = require('./routes/kioskHomeRouter');
+const kioskApiRouter = require('./routes/kioskApiRouter');
 const { readAuthCookie } = require('./utils/authCookies');
+const { getTranslation } = require('./model/translations');
+const { ALL_LANGUAGES } = require('./model/languages');
 
 const app = express();
 
@@ -74,6 +78,19 @@ app.get('/home', (req, res) => {
 app.use('/', authRouter);
 app.use('/patient', patientRouter);
 app.use('/doctor', doctorRouter);
+
+// Trividha-Voice kiosk (merged from the standalone Trividha-Voice app) — the
+// multilingual voice pre-intake flow reached via the patient dashboard's
+// "Book Appointment" card. Its i18n locals (?lang=) only apply under /booking.
+app.use('/booking', (req, res, next) => {
+  const lang = req.query.lang || 'en';
+  res.locals.selectedLang = lang;
+  res.locals.currentLang = ALL_LANGUAGES.find((l) => l.code === lang) || ALL_LANGUAGES[22];
+  res.locals.dict = getTranslation(lang);
+  res.locals.languages = ALL_LANGUAGES;
+  next();
+}, kioskHomeRouter);
+app.use('/api', kioskApiRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

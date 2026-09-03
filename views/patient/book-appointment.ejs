@@ -1,0 +1,70 @@
+<%- include('../partials/head', { title: 'Book Appointment - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active" id="view-booking">
+
+      <!-- STEP 1: doctor list -->
+      <div class="wizard-step is-active" id="step-doctor-list">
+        <div class="hero">
+          <p class="eyebrow" data-i18n="home_eyebrow">TRIVIDHA HOSPITAL</p>
+          <h1 data-i18n="book_appt_title">Book an Appointment</h1>
+          <p class="subtext" data-i18n="book_appt_subtitle">Choose a doctor near you to see their available slots.</p>
+        </div>
+
+        <div class="doctor-filters">
+          <input type="search" id="doctor-search" class="form-input" placeholder="Search by doctor name or specialization" data-i18n-attr="placeholder:book_appt_search_placeholder" />
+          <select id="doctor-city-filter" class="form-select">
+            <option value="" data-i18n="book_appt_all_cities">All cities</option>
+          </select>
+        </div>
+
+        <div id="doctor-list-loading" class="empty-state" data-i18n="book_appt_loading">Loading doctors…</div>
+        <div id="doctor-list-empty" class="empty-state hidden" data-i18n="book_appt_no_doctors">No doctors match your search.</div>
+        <div id="doctor-grid" class="doctor-grid"></div>
+      </div>
+
+      <!-- STEP 2: doctor profile + hospital-wise slots -->
+      <div class="wizard-step" id="step-doctor-profile">
+        <div class="wizard-head">
+          <button type="button" class="wizard-back" id="back-to-list-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="book_appt_back_to_doctors">Back to doctors</span>
+          </button>
+        </div>
+
+        <div id="doctor-profile-card" class="doctor-profile-card"></div>
+
+        <h2 data-i18n="book_appt_available_slots">Available slots</h2>
+        <div id="slots-loading" class="empty-state" data-i18n="book_appt_loading_slots">Loading available slots…</div>
+        <div id="slots-empty" class="empty-state hidden" data-i18n="book_appt_no_slots">This doctor has no open slots right now.</div>
+        <div id="hospital-slot-groups"></div>
+      </div>
+
+      <!-- STEP 3: confirmation / token -->
+      <div class="wizard-step" id="step-confirmation">
+        <div class="success-check success-check--lg">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 data-i18n="book_appt_confirmed_title">Appointment Booked</h2>
+        <p class="subtext" data-i18n="book_appt_confirmed_sub">Your token for this visit is</p>
+
+        <div class="token-block">
+          <span class="token-label" data-i18n="book_appt_token_label">Your Token</span>
+          <span class="token-value" id="confirm-token">—</span>
+        </div>
+
+        <div class="confirm-card" id="confirm-details"></div>
+
+        <a class="form-submit" href="/patient/dashboard" style="display:inline-block; text-decoration:none; max-width:320px; margin: 0.6rem auto 0;" data-i18n="book_appt_back_to_dashboard">Back to Dashboard</a>
+      </div>
+
+      <div id="booking-error" class="form-error hidden" style="width: min(720px, 94vw); margin-top: 1rem;"></div>
+    </section>
+  </main>
+
+  <script>
+    window.__AI_SESSION_ID__ = <%- JSON.stringify(aiSessionId) %>;
+  </script>
+
+<%- include('../partials/footer', { extraScript: '/js/book-appointment.js' }) %>

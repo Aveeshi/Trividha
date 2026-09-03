@@ -1,0 +1,17 @@
+<%- include('../partials/kiosk-head') %>
+<%- include('../partials/kiosk-topbar') %>
+
+<main class="admin-notfound-main">
+  <div class="admin-notfound-icon">
+    <i class="fa-solid fa-circle-exclamation"></i>
+  </div>
+  <h1 class="admin-notfound-title">Page Not Found</h1>
+  <p class="admin-notfound-sub">The requested kiosk page or clinical path was not found.</p>
+  <a href="/booking?lang=<%= selectedLang || 'en' %>" class="admin-notfound-link">
+    Return to Home
+  </a>
+</main>
+
+<%- include('../partials/kiosk-footer') %>
+</body>
+</html>

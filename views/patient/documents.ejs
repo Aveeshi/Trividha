@@ -1,0 +1,52 @@
+<%- include('../partials/head', { title: 'My Documents - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="hero">
+        <p class="eyebrow" data-i18n="home_eyebrow">TRIVIDHA HOSPITAL</p>
+        <h1 data-i18n="my_documents_title">My Documents</h1>
+        <p class="subtext" data-i18n="my_documents_desc">Everything you've uploaded, and what our OCR engine read from it.</p>
+      </div>
+
+      <% if (!documents.length) { %>
+        <div class="empty-state">
+          <p data-i18n="no_documents_yet">You haven't uploaded any documents yet.</p>
+        </div>
+      <% } %>
+
+      <div class="doc-list">
+        <% documents.forEach(function(doc) { %>
+          <a class="doc-card <%= (typeof uploadedId !== 'undefined' && uploadedId === doc.document_id) ? 'is-highlighted' : '' %>"
+             href="<%= doc.file_reference %>" target="_blank" rel="noopener noreferrer">
+            <div class="doc-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="doc-card-body">
+              <div class="doc-card-title"><%= doc.document_type || 'Document' %></div>
+              <div class="doc-card-meta">
+                <%= new Date(doc.uploaded_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }) %>
+                <% if (doc.confidence !== null && doc.confidence !== undefined) { %>
+                  &middot; <%= Math.round(doc.confidence * 100) %>% confidence
+                <% } %>
+              </div>
+              <% if (doc.extracted_text) { %>
+                <div class="doc-card-extract"><%= doc.extracted_text.slice(0, 140) %></div>
+              <% } %>
+            </div>
+            <span class="status-pill status-pill--<%= doc.ocr_status.toLowerCase() %>">
+              <% if (doc.ocr_status === 'PROCESSING') { %><span data-i18n="doc_status_processing">Processing</span>
+              <% } else if (doc.ocr_status === 'COMPLETED') { %><span data-i18n="doc_status_completed">Completed</span>
+              <% } else if (doc.ocr_status === 'FAILED') { %><span data-i18n="doc_status_failed">Failed</span>
+              <% } else { %><span data-i18n="doc_status_pending">Pending</span>
+              <% } %>
+            </span>
+          </a>
+        <% }); %>
+      </div>
+
+      <p class="auth-footnote"><a href="/patient/dashboard/scandocuments">&larr; <span data-i18n="card_scan_title">Scan / Upload Documents</span></a></p>
+    </section>
+  </main>
+
+<%- include('../partials/footer') %>

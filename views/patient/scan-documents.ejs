@@ -1,0 +1,35 @@
+<%- include('../partials/head', { title: 'Scan / Upload Documents - Trividha' }) %>
+<%- include('../partials/topbar') %>
+
+  <main>
+    <section class="view is-active">
+      <div class="hero">
+        <p class="eyebrow" data-i18n="home_eyebrow">TRIVIDHA HOSPITAL</p>
+        <h1 data-i18n="card_scan_title">Scan / Upload Documents</h1>
+        <p class="subtext" data-i18n="card_scan_desc">Add prescriptions, reports, or scans to your record.</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="form-error" style="width:min(560px,94vw); margin-left:auto; margin-right:auto;"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/patient/dashboard/scandocuments" enctype="multipart/form-data" id="upload-form" style="width:min(560px,94vw); margin: 0 auto;">
+        <label class="upload-box" id="upload-box" for="document-input">
+          <div class="upload-box-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="upload-box-title" data-i18n="upload_box_title">Tap to choose a file</p>
+          <p class="upload-box-desc" data-i18n="upload_box_desc">JPEG, PNG, or PDF — up to 15MB</p>
+          <p class="upload-file-name" id="upload-file-name" hidden></p>
+          <input type="file" id="document-input" name="document" accept="image/jpeg,image/png,application/pdf" required />
+        </label>
+
+        <button type="submit" class="form-submit" id="upload-submit-btn" style="margin-top:1.4rem;" data-i18n="btn_upload">Upload</button>
+        <p class="auth-footnote" id="upload-progress-note" hidden data-i18n="upload_processing_note">Uploading and running OCR — this can take a few seconds…</p>
+      </form>
+
+      <p class="auth-footnote"><a href="/patient/dashboard/documents"><span data-i18n="view_my_documents">View my uploaded documents</span> &rarr;</a></p>
+    </section>
+  </main>
+
+<%- include('../partials/footer', { extraScript: '/js/scan-documents.js' }) %>

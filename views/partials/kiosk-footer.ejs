@@ -1,0 +1,20 @@
+<!-- Kiosk Footer Navigation & Accessibility Bar -->
+<footer class="admin-footer">
+  <div class="admin-footer-inner">
+    <div class="admin-footer-left">
+      <i class="fa-solid fa-circle-info admin-clock-icon"></i>
+      <span><%= dict.footerLeft || 'Need help? Visit the front desk or ask any staff member.' %></span>
+    </div>
+
+    <div class="admin-footer-right">
+      <div class="admin-footer-phone">
+        <i class="fa-solid fa-phone admin-clock-icon"></i>
+        <span><%= dict.footerRight || 'Helpline: 1800‑103‑2043' %></span>
+      </div>
+      <div class="admin-footer-textsize">
+        <button onclick="window.adjustKioskTextSize(0.1)" class="admin-textsize-btn">A+</button>
+        <button onclick="window.adjustKioskTextSize(-0.1)" class="admin-textsize-btn">A-</button>
+      </div>
+    </div>
+  </div>
+</footer>

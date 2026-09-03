@@ -33,6 +33,11 @@
             <span class="account-avatar"><%= account.initials %></span>
             <span class="account-name"><%= account.name %></span>
           </a>
+          <% if (account.documentsHref) { %>
+            <a class="account-logout" href="<%= account.documentsHref %>" data-i18n-attr="aria-label:my_documents_title|title:my_documents_title" aria-label="My Documents" title="My Documents">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </a>
+          <% } %>
           <a class="account-logout" href="/logout" data-i18n-attr="aria-label:btn_logout|title:btn_logout" aria-label="Log out" title="Log out">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>

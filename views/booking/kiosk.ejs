@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trividha CareIntake Voice Kiosk</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/css/kiosk.css">
+</head>
+<body class="kiosk-body">
+
+  <!-- Header matching the screenshot -->
+  <header class="kiosk-header">
+    <!-- Left: Logo -->
+    <div class="kiosk-logo-group">
+      <div class="kiosk-logo-icon">
+        <!-- SVG Heart Pulse Logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+      </div>
+      <div class="kiosk-logo-text">
+        <h1 class="kiosk-brand-name">Trividha</h1>
+        <p class="kiosk-brand-subtitle">Hospital Kiosk</p>
+      </div>
+    </div>
+
+    <!-- Right: Time and Lang -->
+    <div class="kiosk-header-right">
+      <div class="kiosk-clock">
+        <div class="kiosk-clock-time" id="clockTime">00:00 PM</div>
+        <div class="kiosk-clock-date" id="clockDate">Sun, 01 Jan</div>
+      </div>
+
+      <div class="kiosk-header-controls">
+        <!-- Language Select Button -->
+        <button id="langBtn" class="kiosk-lang-btn">
+          <i data-lucide="languages" class="kiosk-icon-sm"></i>
+          <span id="langDisplay">English</span>
+        </button>
+        <!-- Font Size Mock Buttons -->
+        <div class="kiosk-font-group">
+          <button class="kiosk-font-btn">A-</button>
+          <button class="kiosk-font-btn">A+</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Kiosk Body -->
+  <main class="kiosk-main">
+
+    <div class="kiosk-main-inner">
+      <!-- Top Text (Namaste & Headline) -->
+      <div class="kiosk-intro">
+        <p class="kiosk-namaste">Namaste 🙏</p>
+        <h2 id="mainStatusText" class="kiosk-status-text">
+          Tap the microphone to speak
+        </h2>
+        <p class="kiosk-lang-notice-row">
+          <span class="kiosk-lang-notice-line"></span>
+          <span id="langNotice">Speaks in English</span>
+          <span class="kiosk-lang-notice-line"></span>
+        </p>
+      </div>
+
+      <!-- AI Dialogue Bubble -->
+      <div id="dialogueContainer" class="hidden kiosk-dialogue animate-fade-in">
+        <p id="assistantText" class="kiosk-assistant-text"></p>
+        <p id="assistantTranslation" class="kiosk-assistant-translation"></p>
+        <!-- Quick Replies -->
+        <div id="quickRepliesContainer" class="kiosk-quick-replies"></div>
+      </div>
+
+      <!-- Live Transcribe -->
+      <div id="transcribeContainer" class="hidden kiosk-transcribe">
+        <p class="kiosk-transcribe-text">
+          <span class="kiosk-transcribe-dot animate-ping"></span>
+          Hearing: <span id="transcribeText" class="kiosk-transcribe-value"></span>
+        </p>
+      </div>
+
+      <!-- Big Action Button (Red style from screenshot) -->
+      <div class="kiosk-mic-wrap">
+        <div id="micOuterRing" class="kiosk-mic-ring"></div>
+
+        <button id="micBtn" class="kiosk-mic-btn">
+          <i id="micIcon" data-lucide="mic" class="kiosk-mic-icon"></i>
+          <span id="micLabel" class="kiosk-mic-label">Start</span>
+        </button>
+      </div>
+
+      <!-- New Patient Reset Text -->
+      <button id="resetBtn" class="kiosk-reset-btn">
+        <i data-lucide="rotate-ccw" class="kiosk-icon-sm"></i>
+        Restart / New Patient
+      </button>
+    </div>
+  </main>
+
+  <!-- Emergency Floating Button -->
+  <button class="kiosk-emergency-btn">
+    <i data-lucide="heart-pulse" class="kiosk-icon-md"></i>
+    Emergency
+  </button>
+
+  <!-- Language Modal -->
+  <div id="langModal" class="hidden kiosk-modal-overlay">
+    <div class="kiosk-modal-panel">
+      <h3 class="kiosk-modal-title">Select Language</h3>
+      <p class="kiosk-modal-subtitle">Choose a language for the AI Voice Assistant.</p>
+
+      <div id="langList" class="kiosk-lang-list custom-scrollbar"></div>
+
+      <button id="closeLangBtn" class="kiosk-modal-close-btn">Close</button>
+    </div>
+  </div>
+
+  <script src="/js/kiosk-languages.js"></script>
+  <script src="/js/speech.js"></script>
+  <script src="/js/kiosk.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clockTime').innerText = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('clockDate').innerText = now.toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short' });
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+  </script>
+</body>
+</html>

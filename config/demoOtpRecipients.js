@@ -8,14 +8,10 @@
  * is available and OTPs should go to the patient's actual linked mobile.
  * ========================================================================== */
 
-// Assumed +91 (India) since all six were given as 10-digit numbers.
+// Assumed +91 (India) since all numbers were given as 10-digit numbers.
 const DEMO_OTP_RECIPIENTS = [
   '+919049157272',
   '+919359308330',
-  '+917559122524',
-  '+918329354770',
-  '+919588463603',
-  '+919403420635',
 ];
 
 module.exports = DEMO_OTP_RECIPIENTS;

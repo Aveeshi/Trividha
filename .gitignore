@@ -1,1 +1,16 @@
 .env
+.env.*
+!.env.example
+SIH/.venv/
+SIH/credentials/
+SIH/__pycache__/
+SIH/.pytest_cache/
+SIH/.env
+SIH/*.pyc
+SIH/*.pyo
+SIH/*.pyd
+SIH/.coverage
+SIH/htmlcov/
+SIH/evaluation/results/
+SIH/data/prescription_01.png
+SIH/data/prescription_02.png

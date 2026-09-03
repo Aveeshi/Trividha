@@ -36,16 +36,22 @@ async function ensurePatient(req, res, next) {
   }
 }
 
+// Shared account-menu shape for every /patient/* page (topbar.ejs). Reused
+// by documentController for the scan-upload/documents pages.
+function buildAccount(patient) {
+  return {
+    name: `${patient.first_name} ${patient.last_name}`.trim(),
+    initials: `${(patient.first_name || '')[0] || ''}${(patient.last_name || '')[0] || ''}`.toUpperCase(),
+    homeHref: '/patient/dashboard',
+    documentsHref: '/patient/dashboard/documents',
+  };
+}
+
 function dashboard(req, res) {
-  const patient = req.patient;
   res.render('patient/dashboard', {
-    patient,
-    account: {
-      name: `${patient.first_name} ${patient.last_name}`.trim(),
-      initials: `${(patient.first_name || '')[0] || ''}${(patient.last_name || '')[0] || ''}`.toUpperCase(),
-      homeHref: '/patient/dashboard',
-    },
+    patient: req.patient,
+    account: buildAccount(req.patient),
   });
 }
 
-module.exports = { ensurePatient, dashboard };
+module.exports = { ensurePatient, dashboard, buildAccount };
