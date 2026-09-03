@@ -1,0 +1,31 @@
+{
+  "name": "trividha-doctor-portal",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Trividha Doctor Portal - frontend-only clinical command center (mock data)",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "concurrently \"nodemon server.js\" \"npm run tailwind:watch\"",
+    "tailwind:build": "tailwindcss -i ./src/styles/index.css -o ./src/public/css/tailwind.css -c ./tailwind.config.js --minify",
+    "tailwind:watch": "tailwindcss -i ./src/styles/index.css -o ./src/public/css/tailwind.css -c ./tailwind.config.js --watch"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.20",
+    "concurrently": "^10.0.5",
+    "nodemon": "^3.1.14",
+    "postcss": "8.4.41",
+    "tailwindcss": "3.4.10"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.114.0",
+    "cloudinary": "^1.41.3",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "multer": "^2.3.0",
+    "multer-storage-cloudinary": "^4.0.0",
+    "pdfkit": "^0.20.2"
+  }
+}

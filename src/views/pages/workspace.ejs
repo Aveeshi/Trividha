@@ -1,0 +1,41 @@
+<div class="max-w-7xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
+  <%- include('../partials/consultation/_patientHeader') %>
+
+  <div class="flex gap-2 border-b border-slate-200 mb-6 shrink-0 overflow-x-auto items-end">
+    <button onclick="switchMainTab('summary')" id="main-btn-summary" class="px-6 py-3 font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap">
+      <i data-lucide="bot" class="w-4 h-4 inline-block mr-1"></i> AI Summary
+    </button>
+    <button onclick="switchMainTab('history')" id="main-btn-history" class="px-6 py-3 font-bold text-slate-500 hover:text-slate-700 border-b-2 border-transparent whitespace-nowrap">
+      <i data-lucide="history" class="w-4 h-4 inline-block mr-1"></i> Medical History
+    </button>
+    
+    <div class="ml-auto mb-2 mr-2">
+      <button onclick="openPrescriptionModal()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-sm flex items-center gap-2 transition-colors">
+        <i data-lucide="pen-tool" class="w-4 h-4"></i> Write Prescription
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-1 relative overflow-hidden">
+    
+    <!-- Tab 1: AI Summary -->
+    <div id="main-tab-summary" class="absolute inset-0 overflow-y-auto">
+      <div class="max-w-3xl mx-auto flex flex-col gap-6 pb-8">
+        <%- include('../partials/consultation/_aiSummary') %>
+        <%- include('../partials/consultation/_ayushSummary') %>
+      </div>
+    </div>
+
+    <!-- Tab 2: Medical History -->
+    <div id="main-tab-history" class="absolute inset-0 hidden">
+      <div class="max-w-3xl mx-auto h-full pb-4">
+        <%- include('../partials/consultation/_medicalTimeline') %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../partials/consultation/_clinicalActions') %>
+<%- include('../partials/consultation/_voiceModal') %>
+<%- include('../partials/consultation/_consultationScripts') %>

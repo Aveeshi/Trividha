@@ -1,0 +1,13 @@
+<% if (aiSummary) { %>
+<div id="voice-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center">
+  <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+    <div class="bg-blue-600 p-4 flex items-center justify-between text-white shrink-0">
+      <h3 class="font-bold flex items-center gap-2"><i data-lucide="mic" class="w-5 h-5"></i> Voice Interview Transcript</h3>
+      <button onclick="document.getElementById('voice-modal').classList.add('hidden')" class="hover:bg-blue-700 p-1 rounded transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div class="p-6 overflow-y-auto whitespace-pre-line text-sm text-slate-700 bg-slate-50">
+      <%= aiSummary.voiceTranscript %>
+    </div>
+  </div>
+</div>
+<% } %>

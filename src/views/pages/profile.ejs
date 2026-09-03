@@ -1,0 +1,133 @@
+<div class="max-w-5xl mx-auto space-y-6">
+  
+  <!-- Profile Header Card -->
+  <div class="bg-white rounded-xl border border-slate-200 p-6 flex flex-col md:flex-row gap-6 items-start md:items-center shadow-sm">
+    <div class="relative shrink-0">
+      <img src="<%= doctor.profile_photo %>" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-slate-50 object-cover shadow-sm">
+      <div class="absolute bottom-0 right-0 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center" title="Active"></div>
+    </div>
+    <div class="flex-1">
+      <h1 class="text-2xl font-bold text-slate-800"><%= doctor.name %></h1>
+      <p class="text-blue-600 font-bold mt-1"><%= doctor.specialization %> • <%= doctor.qualification %></p>
+      <div class="flex flex-wrap items-center gap-4 mt-3 text-sm font-medium text-slate-600">
+        <span class="flex items-center gap-1.5"><i data-lucide="briefcase" class="w-4 h-4 text-slate-400"></i> <%= doctor.experience_years %> Years Experience</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="hash" class="w-4 h-4 text-slate-400"></i> Govt ID: <%= doctor.government_doctor_id %></span>
+        <span class="flex items-center gap-1.5"><i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> <%= doctor.login_email %></span>
+      </div>
+    </div>
+    <div class="shrink-0 flex flex-col gap-2 w-full md:w-auto">
+      <button onclick="document.getElementById('edit-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold shadow-sm transition-colors flex items-center justify-center gap-2">
+        <i data-lucide="edit-3" class="w-4 h-4"></i> Edit Profile
+      </button>
+      <button onclick="alert('Password reset link has been sent to your email via Supabase Auth.')" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-5 py-2 rounded-lg font-bold shadow-sm transition-colors flex items-center justify-center gap-2">
+        <i data-lucide="key" class="w-4 h-4"></i> Change Password
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Left Column: Bio & Details -->
+    <div class="md:col-span-2 space-y-6">
+      
+      <!-- Bio -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide flex items-center gap-2 border-b border-slate-100 pb-2">
+          <i data-lucide="user" class="w-4 h-4 text-blue-500"></i> About Me
+        </h2>
+        <p class="text-slate-600 leading-relaxed text-sm"><%= doctor.bio %></p>
+      </div>
+      
+      <!-- Enrolled Hospitals -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide flex items-center gap-2 border-b border-slate-100 pb-2">
+          <i data-lucide="building-2" class="w-4 h-4 text-blue-500"></i> Enrolled Hospitals
+        </h2>
+        <div class="space-y-3 mt-4">
+          <% if (typeof hospitals !== 'undefined' && hospitals.length > 0) { %>
+            <% hospitals.forEach(h => { %>
+              <%
+                const statusColor = h.enrollmentStatus === 'ACTIVE' ? 'bg-emerald-100 text-emerald-700' :
+                                    h.enrollmentStatus === 'ON_BREAK' ? 'bg-amber-100 text-amber-700' :
+                                    h.enrollmentStatus === 'ON_LEAVE' ? 'bg-blue-100 text-blue-700' :
+                                    'bg-slate-100 text-slate-500';
+                const statusLabel = h.enrollmentStatus === 'ACTIVE' ? 'Available' :
+                                    h.enrollmentStatus === 'ON_BREAK' ? 'On Break' :
+                                    h.enrollmentStatus === 'ON_LEAVE' ? 'On Leave' : h.enrollmentStatus;
+              %>
+              <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 <%= h.ayushMode ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600' %> rounded flex items-center justify-center shadow-sm">
+                    <i data-lucide="<%= h.ayushMode ? 'leaf' : 'activity' %>" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-800 text-sm"><%= h.name %></h4>
+                    <p class="text-xs text-slate-500 font-medium"><%= h.department %></p>
+                  </div>
+                </div>
+                <span class="px-2.5 py-1 <%= statusColor %> text-xs font-bold rounded"><%= statusLabel %></span>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p class="text-slate-500 text-sm italic">Not enrolled in any hospitals.</p>
+          <% } %>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Right Column: Settings / Metadata -->
+    <div class="space-y-6">
+      
+      <!-- Account Status -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide border-b border-slate-100 pb-2">
+          Account Status
+        </h2>
+        
+        <div class="space-y-4">
+          <div>
+            <p class="text-xs font-bold text-slate-400 uppercase">Registration Status</p>
+            <p class="text-sm font-bold text-slate-700 mt-1 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span> <%= doctor.registration_status %>
+            </p>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-slate-400 uppercase">Internal ID</p>
+            <p class="text-sm font-medium text-slate-600 mt-1 font-mono bg-slate-50 p-1.5 rounded border border-slate-100"><%= doctor.doctor_id %></p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- Edit Profile Modal -->
+<div id="edit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+  <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="document.getElementById('edit-modal').classList.add('hidden')"></div>
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden">
+    <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+      <h3 class="font-bold text-slate-800 flex items-center gap-2">
+        <i data-lucide="edit-3" class="w-5 h-5 text-blue-600"></i> Edit Profile
+      </h3>
+      <button onclick="document.getElementById('edit-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <form action="/profile" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-bold text-slate-700 mb-1">Profile Photo</label>
+        <input type="file" name="profile_photo" accept="image/*" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-slate-700 mb-1">Specialization</label>
+        <input type="text" name="specialization" value="<%= doctor.specialization %>" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-slate-700 mb-1">Bio</label>
+        <textarea name="bio" rows="4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"><%= doctor.bio %></textarea>
+      </div>
+      <div class="pt-4 flex gap-3 justify-end">
+        <button type="button" onclick="document.getElementById('edit-modal').classList.add('hidden')" class="px-4 py-2 text-slate-600 font-bold hover:bg-slate-50 rounded-lg transition-colors">Cancel</button>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold shadow-sm transition-colors">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>

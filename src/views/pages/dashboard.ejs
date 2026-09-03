@@ -1,0 +1,176 @@
+<% if (typeof offlineHospitals !== 'undefined' && offlineHospitals.length > 0) { %>
+  <% offlineHospitals.forEach(h => { %>
+    <%
+      const bannerColor = h.enrollmentStatus === 'ON_BREAK'
+        ? 'bg-red-50 border-red-500'
+        : 'bg-blue-50 border-blue-500';
+      const iconColor = h.enrollmentStatus === 'ON_BREAK' ? 'text-red-600' : 'text-blue-600';
+      const textColor = h.enrollmentStatus === 'ON_BREAK' ? 'text-red-700' : 'text-blue-700';
+      const statusWord = h.enrollmentStatus === 'ON_BREAK' ? 'On Break' : 'On Leave';
+    %>
+    <div class="mb-4 <%= bannerColor %> border-l-4 p-4 rounded-r-lg shadow-sm flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="alert-circle" class="w-5 h-5 <%= iconColor %>"></i>
+        <p class="<%= textColor %> font-bold">
+          You are currently <strong><%= statusWord %></strong> at <strong><%= h.name %></strong> — not listed for new patients there.
+        </p>
+      </div>
+      <a href="/hospitals" class="text-xs font-bold <%= iconColor %> underline underline-offset-2 hover:opacity-70">Change</a>
+    </div>
+  <% }) %>
+<% } %>
+
+<% if (leaveRequests && leaveRequests.length > 0) { %>
+  <% leaveRequests.forEach(leave => { %>
+    <div class="mb-4 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg shadow-sm">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <i data-lucide="calendar-clock" class="w-5 h-5 text-blue-600 mr-2"></i>
+          <p class="text-blue-800"><span class="font-bold">Leave Application Submitted:</span> "<%= leave.reason %>" (<%= leave.fromDate %> to <%= leave.toDate %>)</p>
+        </div>
+        <span class="bg-blue-200 text-blue-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider"><%= leave.status %></span>
+      </div>
+    </div>
+  <% }) %>
+<% } %>
+
+<div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <div>
+    <h2 class="text-2xl font-bold text-slate-800">Good morning, <%= doctor.name.split(' ')[0] %></h2>
+    <p class="text-slate-500">Here's your clinical overview for today.</p>
+  </div>
+</div>
+
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+    <h3 class="font-semibold text-slate-500 text-xs uppercase tracking-wider mb-2">Today's Patients</h3>
+    <p class="text-3xl font-bold text-blue-700"><%= todayCount %></p>
+  </div>
+  <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+    <h3 class="font-semibold text-slate-500 text-xs uppercase tracking-wider mb-2">Completed</h3>
+    <p class="text-3xl font-bold text-emerald-600"><%= completedCount %></p>
+  </div>
+  <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+    <h3 class="font-semibold text-slate-500 text-xs uppercase tracking-wider mb-2">Waiting</h3>
+    <p class="text-3xl font-bold text-amber-600"><%= waitingCount %></p>
+  </div>
+  <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+    <h3 class="font-semibold text-slate-500 text-xs uppercase tracking-wider mb-2">Leaves Taken</h3>
+    <p class="text-3xl font-bold text-slate-700"><%= leavesTaken %></p>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  
+  <div class="lg:col-span-2">
+    <h3 class="text-lg font-bold text-slate-800 mb-4">Today's Schedule</h3>
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <% if (todaySlots && todaySlots.length > 0) { %>
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-slate-50 text-slate-500 border-b border-slate-200 text-xs uppercase tracking-wider">
+            <th class="p-4 font-semibold">Time</th>
+            <th class="p-4 font-semibold">Hospital</th>
+            <th class="p-4 font-semibold">Capacity</th>
+            <th class="p-4 font-semibold">Status</th>
+            <th class="p-4 font-semibold">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <% todaySlots.forEach(slot => { %>
+          <tr class="hover:bg-slate-50 cursor-pointer" onclick="window.location.href='/queue?slotId=<%= slot.id %>'">
+            <td class="p-4 font-bold text-slate-700"><%= slot.time %></td>
+            <td class="p-4">
+              <div class="font-bold text-slate-800"><%= slot.hospital.name %></div>
+              <div class="text-xs text-slate-500"><%= slot.hospital.department %></div>
+            </td>
+            <td class="p-4 font-medium text-slate-600"><%= slot.capacity %> patients</td>
+            <td class="p-4">
+              <span class="inline-flex items-center px-2 py-1 rounded text-xs font-bold uppercase tracking-wider
+                <%= slot.status === 'IN PROGRESS' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600' %>">
+                <%= slot.status %>
+              </span>
+            </td>
+            <td class="p-4">
+              <a href="/queue?slotId=<%= slot.id %>" class="text-blue-600 hover:text-blue-800 flex items-center text-sm font-bold">
+                View Queue <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+              </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <div class="p-10 text-center flex flex-col items-center justify-center">
+        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-3">
+          <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-bold text-slate-700 mb-1">No upcoming slots</h3>
+        <p class="text-sm text-slate-500">You have a clear schedule for now.</p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-bold text-slate-800 mb-4">Your Performance</h3>
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
+      <div>
+        <div class="flex justify-between items-end mb-1">
+          <span class="text-sm font-semibold text-slate-500">Patients Treated</span>
+          <span class="text-xl font-bold text-slate-800"><%= performance.patientsTreated %></span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width: <%= Math.min(performance.patientsTreated / 200 * 100, 100) %>%"></div></div>
+      </div>
+      <div>
+        <div class="flex justify-between items-end mb-1">
+          <span class="text-sm font-semibold text-slate-500">Promptness</span>
+          <span class="text-xl font-bold text-slate-800"><%= performance.promptness %>%</span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width: <%= performance.promptness %>%"></div></div>
+      </div>
+      <div class="pt-4 border-t border-slate-100 text-center">
+        <p class="text-3xl font-bold text-amber-500 flex items-center justify-center gap-2">
+          <%= performance.rating %> <i data-lucide="star" class="w-6 h-6 fill-amber-500"></i>
+        </p>
+        <p class="text-sm font-semibold text-slate-500 mt-1">Overall Rating</p>
+      </div>
+      <a href="/performance" class="block w-full py-2 bg-slate-50 text-slate-600 font-bold text-sm text-center rounded border border-slate-200 hover:bg-slate-100">View Detailed Analytics</a>
+    </div>
+  </div>
+</div>
+
+<!-- Leave Application Modal -->
+<div id="leave-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center">
+  <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    <div class="bg-blue-600 p-4 flex items-center justify-between text-white shrink-0">
+      <h3 class="font-bold flex items-center gap-2"><i data-lucide="calendar-off" class="w-5 h-5"></i> Apply for Leave</h3>
+      <button onclick="document.getElementById('leave-modal').classList.add('hidden')" class="hover:bg-blue-700 p-1 rounded transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <form action="/leave" method="POST" class="p-6">
+      <p class="text-sm text-slate-500 mb-4">Please provide a short reason for your leave. Your application will be sent to the hospital portal for approval.</p>
+      
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">From Date</label>
+          <input type="date" name="fromDate" required class="w-full border border-slate-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">To Date</label>
+          <input type="date" name="toDate" required class="w-full border border-slate-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Reason for Leave</label>
+        <textarea name="reason" rows="3" required class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. Family emergency, feeling unwell..."></textarea>
+      </div>
+
+      <div class="flex justify-end gap-2 mt-6">
+        <button type="button" onclick="document.getElementById('leave-modal').classList.add('hidden')" class="px-4 py-2 font-bold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
+        <button type="submit" class="px-4 py-2 font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</div>

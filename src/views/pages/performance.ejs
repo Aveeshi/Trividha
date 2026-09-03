@@ -1,0 +1,65 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold text-slate-800">Performance & Feedback</h2>
+    <p class="text-slate-500 mt-1">Track your clinical efficiency and patient satisfaction</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-3 text-slate-500 mb-2">
+        <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
+        <h3 class="font-medium text-sm uppercase tracking-wider">Patients Treated</h3>
+      </div>
+      <p class="text-4xl font-bold text-slate-800"><%= performance.patientsTreated %></p>
+      <p class="text-sm font-medium text-green-600 mt-2 flex items-center gap-1"><i data-lucide="trending-up" class="w-4 h-4"></i> +12% this month</p>
+    </div>
+    
+    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-3 text-slate-500 mb-2">
+        <i data-lucide="clock" class="w-5 h-5 text-indigo-500"></i>
+        <h3 class="font-medium text-sm uppercase tracking-wider">Promptness</h3>
+      </div>
+      <p class="text-4xl font-bold text-slate-800"><%= performance.promptness %>%</p>
+      <p class="text-sm font-medium text-slate-500 mt-2">Average waiting time: 8 mins</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-3 text-slate-500 mb-2">
+        <i data-lucide="star" class="w-5 h-5 text-amber-500"></i>
+        <h3 class="font-medium text-sm uppercase tracking-wider">Patient Rating</h3>
+      </div>
+      <p class="text-4xl font-bold text-slate-800 flex items-baseline gap-2">
+        <%= performance.rating %> <span class="text-xl text-slate-400">/ 5.0</span>
+      </p>
+      <div class="flex gap-1 mt-2">
+        <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+        <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+        <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+        <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+        <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+    <h3 class="text-lg font-bold text-slate-800 mb-4">Patient Feedback</h3>
+    <div class="space-y-4">
+      <div class="p-4 border border-slate-100 rounded-lg bg-slate-50">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-slate-700">Anonymous</span>
+            <span class="text-xs text-slate-400">2 days ago</span>
+          </div>
+          <div class="flex gap-0.5">
+            <i data-lucide="star" class="w-3.5 h-3.5 text-amber-500 fill-amber-500"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 text-amber-500 fill-amber-500"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 text-amber-500 fill-amber-500"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 text-amber-500 fill-amber-500"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 text-slate-300"></i>
+          </div>
+        </div>
+        <p class="text-slate-600 text-sm">Doctor was very patient and explained the medication clearly. Highly recommended.</p>
+      </div>
+    </div>
+  </div>
+</div>

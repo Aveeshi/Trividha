@@ -1,0 +1,218 @@
+<div class="max-w-7xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h2 class="text-2xl font-semibold text-slate-800">Consultation History</h2>
+      <p class="text-slate-500 mt-1">Review patients you have treated</p>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-medium text-slate-500 mr-2">Filter by:</span>
+      <select class="border border-slate-200 rounded-lg px-4 py-2 text-sm font-medium text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="window.location.href='/consultation?filter=' + this.value">
+        <option value="today" <%= filter === 'today' ? 'selected' : '' %>>Today</option>
+        <option value="yesterday" <%= filter === 'yesterday' ? 'selected' : '' %>>Yesterday</option>
+        <option value="7days" <%= filter === '7days' ? 'selected' : '' %>>Last 7 Days</option>
+        <option value="all" <%= filter === 'all' ? 'selected' : '' %>>All Time</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <% if (history && history.length > 0) { %>
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-slate-50 text-slate-500 border-b border-slate-200 text-sm uppercase tracking-wider">
+          <th class="p-4 font-semibold">Patient Name</th>
+          <th class="p-4 font-semibold">ABHA ID</th>
+          <th class="p-4 font-semibold">Date of Visit</th>
+          <th class="p-4 font-semibold">Slot & Hospital</th>
+          <th class="p-4 font-semibold text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <% history.forEach(record => { %>
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-4">
+            <div class="font-bold text-slate-800"><%= record.patient.name %></div>
+            <div class="text-xs font-medium text-slate-500 mt-0.5"><%= record.patient.age %> / <%= record.patient.gender %></div>
+          </td>
+          <td class="p-4 font-medium text-slate-600 flex items-center gap-1.5 mt-2">
+            <i data-lucide="fingerprint" class="w-4 h-4 text-slate-400"></i> <%= record.patient.abhaId %>
+          </td>
+          <td class="p-4 font-bold text-slate-700"><%= record.date %></td>
+          <td class="p-4">
+            <div class="font-bold text-slate-700"><%= record.slot %></div>
+            <div class="text-xs text-slate-500"><%= record.hospital %></div>
+          </td>
+          <td class="p-4 text-right">
+            <button 
+              onclick="openSummary(this)"
+              class="summary-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded text-sm font-bold text-blue-600 hover:bg-blue-50 transition-colors"
+              data-name="<%= record.patient.name %>"
+              data-date="<%= record.date %>"
+              data-diagnosis="<%= record.prescription ? record.prescription.diagnosis : '' %>"
+              data-meds="<%= record.prescription && record.prescription.medicines ? record.prescription.medicines.join('|') : '' %>"
+              data-labs="<%= record.prescription && record.prescription.labs ? record.prescription.labs.join('|') : '' %>"
+              data-summary="<%= record.fullSummary %>"
+              data-timeline="<%= JSON.stringify(record.timeline) %>">
+              <i data-lucide="file-text" class="w-4 h-4"></i> Summary
+            </button>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% } else { %>
+    <div class="p-12 text-center flex flex-col items-center justify-center">
+      <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4">
+        <i data-lucide="history" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-700 mb-1">No past consultations found</h3>
+      <p class="text-slate-500">There are no patient records for the selected time period.</p>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Summary Modal -->
+<div id="summary-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+  <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeSummary()"></div>
+  <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 flex flex-col overflow-hidden">
+    <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+      <h3 class="font-bold text-slate-800 flex items-center gap-2">
+        <i data-lucide="file-check-2" class="w-5 h-5 text-blue-600"></i>
+        Consultation Summary
+      </h3>
+      <button onclick="closeSummary()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    
+    <div class="p-6 overflow-y-auto max-h-[75vh]">
+      <div class="mb-5 flex justify-between items-start">
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Patient</p>
+          <p class="font-bold text-slate-800 text-lg" id="sum-name">Name</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Date</p>
+          <p class="font-semibold text-slate-700" id="sum-date">Date</p>
+        </div>
+      </div>
+      
+      <!-- Complete Summary Textbox -->
+      <div class="mb-5">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">History Summary</p>
+        <div class="bg-amber-50 text-amber-900 px-4 py-3 rounded-lg text-sm border border-amber-200" id="sum-full">
+          Summary text here
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Medical Timeline</p>
+        <div id="sum-timeline" class="space-y-3 bg-slate-50 p-4 rounded-lg border border-slate-100">
+          <!-- Timeline items injected here -->
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Current Diagnosis</p>
+        <div class="bg-blue-50 text-blue-800 px-3 py-2 rounded-lg font-medium border border-blue-100" id="sum-diagnosis">
+          Diagnosis
+        </div>
+      </div>
+      
+      <div class="mb-5">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Prescription (Medicines)</p>
+        <ul id="sum-meds" class="list-disc list-inside space-y-1 text-sm font-medium text-slate-700 bg-white p-3 rounded-lg border border-slate-200">
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Lab Tests Ordered</p>
+        <ul id="sum-labs" class="list-disc list-inside space-y-1 text-sm font-medium text-slate-700 bg-white p-3 rounded-lg border border-slate-200">
+        </ul>
+      </div>
+    </div>
+    
+    <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+      <button class="px-4 py-2 bg-white border border-slate-200 text-slate-600 font-bold rounded-lg shadow-sm hover:bg-slate-100 mr-2 flex items-center gap-2">
+        <i data-lucide="printer" class="w-4 h-4"></i> Print
+      </button>
+      <button onclick="closeSummary()" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg shadow-sm hover:bg-blue-700">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openSummary(btn) {
+  const data = btn.dataset;
+  
+  document.getElementById('sum-name').innerText = data.name;
+  document.getElementById('sum-date').innerText = data.date;
+  document.getElementById('sum-diagnosis').innerText = data.diagnosis || 'None';
+  document.getElementById('sum-full').innerText = data.summary || 'No summary available.';
+  
+  const timelineEl = document.getElementById('sum-timeline');
+  timelineEl.innerHTML = '';
+  
+  try {
+    const timeline = JSON.parse(data.timeline || '[]');
+    if (timeline.length === 0) {
+      timelineEl.innerHTML = '<p class="text-sm text-slate-500 italic">No historical events found.</p>';
+    } else {
+      timeline.forEach(evt => {
+        let typeColor = evt.type === 'high-alert' ? 'bg-red-100 text-red-800 border-red-200' : 'bg-white text-slate-700 border-slate-200';
+        let icon = evt.type === 'high-alert' ? 'alert-triangle' : 'file-text';
+        
+        let html = `
+          <div class="p-3 border rounded-lg text-sm ${typeColor} shadow-sm">
+            <div class="flex justify-between items-start mb-1">
+              <span class="font-bold flex items-center gap-1.5">
+                <i data-lucide="${icon}" class="w-4 h-4 ${evt.type === 'high-alert' ? 'text-red-600' : 'text-slate-400'}"></i>
+                ${evt.title}
+              </span>
+              <span class="text-xs opacity-75 font-medium">${evt.date}</span>
+            </div>
+            <p class="mt-1">${evt.details}</p>
+            <p class="text-xs opacity-70 mt-1">${evt.hospital}</p>
+          </div>
+        `;
+        timelineEl.insertAdjacentHTML('beforeend', html);
+      });
+      lucide.createIcons();
+    }
+  } catch(e) {
+    timelineEl.innerHTML = '<p class="text-sm text-red-500">Error loading timeline.</p>';
+  }
+
+  const medsUl = document.getElementById('sum-meds');
+  medsUl.innerHTML = '';
+  if (data.meds) {
+    data.meds.split('|').forEach(m => {
+      let li = document.createElement('li');
+      li.innerText = m;
+      medsUl.appendChild(li);
+    });
+  } else {
+    medsUl.innerHTML = '<li class="text-slate-400 italic">None</li>';
+  }
+
+  const labsUl = document.getElementById('sum-labs');
+  labsUl.innerHTML = '';
+  if (data.labs) {
+    data.labs.split('|').forEach(l => {
+      let li = document.createElement('li');
+      li.innerText = l;
+      labsUl.appendChild(li);
+    });
+  } else {
+    labsUl.innerHTML = '<li class="text-slate-400 italic">None</li>';
+  }
+
+  document.getElementById('summary-modal').classList.remove('hidden');
+}
+
+function closeSummary() {
+  document.getElementById('summary-modal').classList.add('hidden');
+}
+</script>

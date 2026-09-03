@@ -1,0 +1,49 @@
+<script>
+function switchMainTab(tabName) {
+  const tabs = ['summary', 'history', 'actions'];
+  tabs.forEach(t => {
+    document.getElementById('main-tab-' + t).classList.add('hidden');
+    const btn = document.getElementById('main-btn-' + t);
+    if (btn) btn.className = "px-6 py-3 font-bold text-slate-500 hover:text-slate-700 border-b-2 border-transparent whitespace-nowrap";
+  });
+  
+  const activeTab = document.getElementById('main-tab-' + tabName);
+  if (activeTab) activeTab.classList.remove('hidden');
+  const activeBtn = document.getElementById('main-btn-' + tabName);
+  if (activeBtn) activeBtn.className = "px-6 py-3 font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap";
+}
+
+function switchTab(group, tabName) {
+  if (group === 'timeline') {
+    document.getElementById('content-high-alert').classList.add('hidden');
+    document.getElementById('content-prescriptions').classList.add('hidden');
+    document.getElementById('content-' + tabName).classList.remove('hidden');
+    
+    const hTab = document.getElementById('tab-high-alert');
+    const pTab = document.getElementById('tab-prescriptions');
+    
+    if (tabName === 'high-alert') {
+      hTab.className = "flex-1 py-3 text-sm font-bold text-red-600 border-b-2 border-red-600 bg-red-50/50";
+      pTab.className = "flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50";
+    } else {
+      pTab.className = "flex-1 py-3 text-sm font-bold text-blue-600 border-b-2 border-blue-600 bg-blue-50/50";
+      hTab.className = "flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50";
+    }
+  } else if (group === 'actions') {
+    document.getElementById('content-prescription').classList.add('hidden');
+    document.getElementById('content-labs').classList.add('hidden');
+    document.getElementById('content-' + tabName).classList.remove('hidden');
+    
+    const prTab = document.getElementById('tab-prescription');
+    const lTab = document.getElementById('tab-labs');
+    
+    if (tabName === 'prescription') {
+      prTab.className = "flex-1 py-3 text-sm font-bold text-blue-600 border-b-2 border-blue-600 bg-blue-50/50";
+      lTab.className = "flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50";
+    } else {
+      lTab.className = "flex-1 py-3 text-sm font-bold text-blue-600 border-b-2 border-blue-600 bg-blue-50/50";
+      prTab.className = "flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50";
+    }
+  }
+}
+</script>

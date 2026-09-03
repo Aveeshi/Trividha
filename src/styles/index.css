@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-[15px] leading-relaxed text-navy antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-[-0.015em] text-navy;
+  }
+
+  /* Visible focus for keyboard users everywhere. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-canvas;
+  }
+
+  ::selection {
+    @apply bg-brand-100 text-navy;
+  }
+}
+
+@layer components {
+  .tv-card {
+    @apply rounded-card border border-hairline bg-surface shadow-card;
+  }
+
+  .tv-panel {
+    @apply rounded-panel border border-hairline bg-surface;
+  }
+
+  .tv-label {
+    @apply text-2xs font-semibold uppercase tracking-[0.09em] text-slateink;
+  }
+
+  .tv-divide {
+    @apply divide-y divide-hairline;
+  }
+
+  .tv-input {
+    @apply w-full rounded-soft border border-hairline bg-white px-3.5 py-2.5 text-sm text-navy
+      placeholder:text-slateink-400 transition
+      focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-500/12;
+  }
+
+  .tv-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .tv-scroll::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+
+  .tv-scroll::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300;
+  }
+
+  .tv-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

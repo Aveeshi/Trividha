@@ -1,0 +1,120 @@
+<div class="max-w-5xl mx-auto">
+
+  <!-- Header with back button, title, and status toggle -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+    <div class="flex items-center gap-4">
+      <a href="/hospitals" class="text-slate-400 hover:text-blue-600"><i data-lucide="arrow-left" class="w-6 h-6"></i></a>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-800"><%= hospital.name %> — Today's Slots</h2>
+        <p class="text-slate-500 mt-0.5">Select a slot to view the patient queue.</p>
+      </div>
+    </div>
+
+    <!-- 3 status buttons — same style as old global toggle -->
+    <div class="bg-white p-1 rounded-lg border border-slate-200 inline-flex shadow-sm shrink-0">
+      <form action="/hospital-status" method="POST" class="inline">
+        <input type="hidden" name="doctor_hospital_id" value="<%= doctorHospitalId %>">
+        <input type="hidden" name="status" value="ACTIVE">
+        <button type="submit" class="px-5 py-2 text-sm font-bold rounded-md transition-colors <%= enrollmentStatus === 'ACTIVE' ? 'bg-emerald-100 text-emerald-800' : 'text-slate-500 hover:bg-slate-50' %>">
+          ✓ Available
+        </button>
+      </form>
+      <form action="/hospital-status" method="POST" class="inline">
+        <input type="hidden" name="doctor_hospital_id" value="<%= doctorHospitalId %>">
+        <input type="hidden" name="status" value="ON_BREAK">
+        <button type="submit" class="px-5 py-2 text-sm font-bold rounded-md transition-colors <%= enrollmentStatus === 'ON_BREAK' ? 'bg-red-100 text-red-800' : 'text-slate-500 hover:bg-slate-50' %>">
+          ⏸ On Break
+        </button>
+      </form>
+      <form action="/hospital-status" method="POST" class="inline">
+        <input type="hidden" name="doctor_hospital_id" value="<%= doctorHospitalId %>">
+        <input type="hidden" name="status" value="ON_LEAVE">
+        <button type="button" onclick="document.getElementById('leave-modal').classList.remove('hidden')"
+          class="px-5 py-2 text-sm font-bold rounded-md transition-colors <%= enrollmentStatus === 'ON_LEAVE' ? 'bg-blue-100 text-blue-800' : 'text-slate-500 hover:bg-slate-50' %>">
+          🌴 On Leave
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- On Leave Modal -->
+  <div id="leave-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+      <div class="bg-blue-600 p-4 flex items-center justify-between text-white shrink-0">
+        <h3 class="font-bold flex items-center gap-2"><i data-lucide="calendar-off" class="w-5 h-5"></i> Apply for Leave</h3>
+        <button onclick="document.getElementById('leave-modal').classList.add('hidden')" class="hover:bg-blue-700 p-1 rounded transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <!-- Single form that sets status AND records the leave -->
+      <form action="/hospital-leave" method="POST" class="p-6">
+        <input type="hidden" name="doctor_hospital_id" value="<%= doctorHospitalId %>">
+        <p class="text-sm text-slate-500 mb-4">Provide your leave details. Your availability at <strong><%= hospital.name %></strong> will be set to <strong>On Leave</strong>.</p>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">From Date</label>
+            <input type="date" name="fromDate" required class="w-full border border-slate-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">To Date</label>
+            <input type="date" name="toDate" required class="w-full border border-slate-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Reason for Leave</label>
+          <textarea name="reason" rows="3" required class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. Family emergency, feeling unwell..."></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-6">
+          <button type="button" onclick="document.getElementById('leave-modal').classList.add('hidden')" class="px-4 py-2 font-bold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
+          <button type="submit" class="px-4 py-2 font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">Submit & Go On Leave</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Offline banner -->
+  <% if (enrollmentStatus === 'ON_BREAK') { %>
+    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm flex items-center gap-3">
+      <i data-lucide="alert-circle" class="w-5 h-5 text-red-600 shrink-0"></i>
+      <p class="text-red-700 font-bold">You are currently <strong>On Break</strong> at <%= hospital.name %>. You are not listed for new patients here. Click <strong>Available</strong> to resume.</p>
+    </div>
+  <% } else if (enrollmentStatus === 'ON_LEAVE') { %>
+    <div class="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg shadow-sm flex items-center gap-3">
+      <i data-lucide="calendar-clock" class="w-5 h-5 text-blue-600 shrink-0"></i>
+      <p class="text-blue-700 font-bold">You are currently <strong>On Leave</strong> at <%= hospital.name %>. You are not listed for new patients here. Click <strong>Available</strong> to resume.</p>
+    </div>
+  <% } %>
+
+  <!-- Slots list -->
+  <div class="space-y-4">
+    <% slots.forEach(slot => { %>
+    <a href="/queue?slotId=<%= slot.id %>" class="block bg-white rounded-xl border border-slate-200 shadow-sm hover:border-blue-300 transition-colors p-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-6">
+          <div class="text-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg">
+            <p class="text-lg font-bold"><%= slot.time.split(' - ')[0] %></p>
+            <p class="text-xs font-semibold uppercase opacity-80">Start</p>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-lg">General Consultation</h3>
+            <p class="text-slate-500 text-sm mt-0.5"><i data-lucide="users" class="w-4 h-4 inline align-text-bottom mr-1"></i> Capacity: <%= slot.capacity %> patients</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-6">
+          <div class="text-right">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider
+              <%= slot.status === 'AVAILABLE' ? 'bg-green-100 text-green-700' : 
+                  slot.status === 'IN PROGRESS' ? 'bg-blue-100 text-blue-700' : 
+                  'bg-slate-100 text-slate-600' %>">
+              <%= slot.status %>
+            </span>
+          </div>
+          <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+        </div>
+      </div>
+    </a>
+    <% }); %>
+  </div>
+</div>
