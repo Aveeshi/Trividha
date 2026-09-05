@@ -1,7 +1,9 @@
+const crypto = require('crypto');
 const pool = require('./db');
 
 function generateKioskCode(hospitalId, kioskNumber) {
-  return `H${hospitalId}-K${String(kioskNumber).padStart(3, '0')}`;
+  const rand = crypto.randomBytes(3).toString('hex').toUpperCase();
+  return `KSK-H${hospitalId}-${String(kioskNumber).padStart(2, '0')}-${rand}`;
 }
 
 function serialize(row) {

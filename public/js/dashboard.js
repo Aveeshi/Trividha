@@ -153,10 +153,10 @@ function renderDoctors(){
 function renderKiosks(){
   const list = $('kioskList');
   if (!list) return;
-  const origin = window.location.origin;
   const hospId = hospital?.id || hospital?.hospital_id || '';
   list.innerHTML = kiosks.map(k => {
     const kioskId = k.id || k.kiosk_id;
+    const code = k.kiosk_code || `H${hospId}-K${String(k.kiosk_number).padStart(3, '0')}`;
     return `
     <div class="kiosk-card">
       <div class="kc-top">
@@ -166,7 +166,16 @@ function renderKiosks(){
           <div class="kc-loc">${k.location || k.location_description || 'No location set'}</div>
         </div>
       </div>
-      <div class="kc-url">${origin}/api/kiosk-feed/${hospId}/${encodeURIComponent(k.kiosk_number)}</div>
+      <div class="kc-code-box">
+        <div class="kc-code-info">
+          <span class="kc-code-label">Kiosk Code</span>
+          <span class="kc-code-val">${code}</span>
+        </div>
+        <button type="button" class="btn-copy-code" onclick="navigator.clipboard.writeText('${code}'); showToast('Kiosk code copied', '📋');" title="Copy code">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
       <button class="btn btn-ghost btn-sm" style="width:100%; color:#A81C2C;" onclick="removeKiosk(${kioskId})">Remove kiosk</button>
     </div>
   `}).join('') + `
@@ -353,7 +362,8 @@ async function addKiosk(){
     const { kiosks: created } = await api('/api/kiosks', { method:'POST', body: JSON.stringify({ count, location }) });
     await loadKiosks();
     renderAll();
-    showToast(`${created.length} kiosk${created.length===1?'':'s'} registered`, '🖥️');
+    const codes = (created || []).map(k => k.kiosk_code).filter(Boolean).join(', ');
+    showToast(codes ? `Registered! Code: ${codes}` : `${created.length} kiosk(s) registered`, '🖥️');
   } catch(e){ showToast(e.message, '⚠️'); }
 }
 window.removeKiosk = async function(id){
